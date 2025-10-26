@@ -19,7 +19,6 @@ let g:bundle_enabled = {
                         \'coc': 0,
                         \'snippet': 1,
                         \'ai': 0,
-                        \'ctrlp': 0,
                         \'fzf': 1,
                         \'tags': 0,
                         \'opt': 1,
