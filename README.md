@@ -11,7 +11,7 @@
 
 ```bash
 mkdir -p ~/.vim && cd ~/.vim
-git clone https://github.com/emanxu/vimrc.git
+git clone https://github.com/emanxu/vim.git
 ```
 
 然后创建你的 `~/.vimrc` 文件，里面只有一句话：
