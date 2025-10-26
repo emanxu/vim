@@ -11,13 +11,13 @@
 
 ```bash
 mkdir -p ~/.vim && cd ~/.vim
-git clone https://github.com/Emanxu/vimrc.git
+git clone https://github.com/emanxu/vimrc.git
 ```
 
 然后创建你的 `~/.vimrc` 文件，里面只有一句话：
 
 ```VimL
-echo 'source ~/.vim/vim-init/init.vim' | tee ~/.vimrc
+echo 'source ~/.vim/init.vim' | tee ~/.vimrc
 ```
 
 请调整你的终端软件，确保对 ALT 键的支持，以及 Backspace 键发送正确扫描码（默认没有 source init/alt.vim）：
@@ -53,7 +53,6 @@ let g:bundle_enabled = {
                         \'coc': 0,
                         \'snippet': 1,
                         \'ai': 0,
-                        \'ctrlp': 0,
                         \'fzf': 1,
                         \'tags': 0,
                         \'opt': 1,
