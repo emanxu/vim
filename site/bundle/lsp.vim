@@ -25,18 +25,31 @@ let g:lsp_diagnostics_signs_insert_mode_enabled = 0
 let g:lsp_document_code_action_signs_enabled = 0
 let g:lsp_diagnostics_virtual_text_enabled = 0
 let g:lsp_diagnostics_echo_cursor = 1
-let g:lsp_diagnostics_float_cursor = 0
-let g:lsp_diagnostics_float_delay = 500
+let g:lsp_diagnostics_echo_delay = 500
+let g:lsp_signature_help_enabled = 1
+let g:lsp_signature_help_delay = 200
 
 
 
-" use C-n and C-p, let's Tap use to jump vsnip or pre
-" inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-" inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
+" Tab
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : 
+                     \ vsnip#jumpable(1) ? "<Plug>(vsnip-jump-next)" : 
+                     \ "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : 
+                       \ vsnip#jumpable(-1) ? "<Plug>(vsnip-jump-prev)" : 
+                       \ "\<S-Tab>"
+
+" Snippet select
+smap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
+smap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
+
+" Enter confirm pum
+inoremap <expr> <cr> pumvisible() ? asyncomplete#close_popup() : "\<cr>"
 
 " force refresh
 imap <c-space> <Plug>(asyncomplete_force_refresh)
+
+
 
 " setup map
 function! s:on_lsp_buffer_enabled() abort

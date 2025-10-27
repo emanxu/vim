@@ -71,7 +71,6 @@ if s:enableKey('basic')
 	Plug 'ojroques/vim-oscyank', {'branch': 'main'} " osc52 support
 	IncScript site/bundle/oscyank.vim
 
-
 	" for status line
 	Plug 'itchyny/lightline.vim'
 	let g:lightline = {}
@@ -126,9 +125,10 @@ if s:enableKey('fzf')
 	let g:fzf_vim.command_prefix = 'Fzf'
 	let g:fzf_layout = { 'down': '~30%' }
 	let g:fzf_vim.preview_window = ['hidden,right,50%', 'ctrl-p']
-	" Path completion with custom source command
-	inoremap <expr> <c-x><c-f> fzf#vim#complete#path('find')
-	inoremap <expr> <c-x><c-k> fzf#vim#complete#word({'window': { 'width': 0.2, 'height': 0.9, 'xoffset': 1 }})
+	" Insert mode completion
+	imap <c-x><c-k> <plug>(fzf-complete-word)
+	imap <c-x><c-f> <plug>(fzf-complete-path)
+	imap <c-x><c-l> <plug>(fzf-complete-line)
 
 	" quick grep use RG
 	nnoremap <leader>fg :FzfRG<CR>
@@ -146,12 +146,18 @@ endif
 if s:enableKey('lsp')
 	" for complete
 	Plug 'prabirshrestha/vim-lsp'
+	Plug 'mattn/vim-lsp-settings', { 'branch': 'master' }
 	Plug 'prabirshrestha/asyncomplete.vim'
 	Plug 'prabirshrestha/asyncomplete-lsp.vim'
 
 	" for buffer
 	Plug 'prabirshrestha/asyncomplete-buffer.vim'
-	Plug 'mattn/vim-lsp-settings', { 'branch': 'master' }
+
+
+	" snippet
+	Plug 'hrsh7th/vim-vsnip'
+	Plug 'hrsh7th/vim-vsnip-integ'
+	Plug 'rafamadriz/friendly-snippets'
 
 	IncScript site/bundle/lsp.vim
 endif
@@ -160,19 +166,11 @@ endif
 " CoC
 if s:enableKey('coc')
 	Plug 'neoclide/coc.nvim', {'branch': 'release'}
+	Plug 'honza/vim-snippets'
+
 	IncScript site/bundle/coc.vim
 endif
 
-" snippet
-if s:enableKey('snippet') && s:enableKey('coc')
-	Plug 'honza/vim-snippets'
-	IncScript site/bundle/coc-snippet.vim
-elseif s:enableKey('snippet') && s:enableKey('lsp')
-	Plug 'hrsh7th/vim-vsnip'
-	Plug 'hrsh7th/vim-vsnip-integ'
-	Plug 'honza/vim-snippets'
-	IncScript site/bundle/lsp-snippet.vim
-endif
 
 if s:enableKey('ai')
 	Plug 'Exafunction/windsurf.vim', { 'branch': 'main' }

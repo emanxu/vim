@@ -116,12 +116,14 @@ augroup end
 " when using coc-snippets, we disanble ultisnips. https://github.com/neoclide/coc-snippets/issues/123
 " coc-snippet coc-snippets doesn't calculate python code on placeholder change.
 " disable ultisnips support by add "snippets.ultisnips.enable": false in your configuration file.
-if has_key(g:bundle_enabled, 'snippet') && g:bundle_enabled['snippet']
-	inoremap <silent><expr> <TAB>
-				\ coc#pum#visible() ? coc#_select_confirm() :
-				\ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-				\ <SID>check_back_space()  ? "\<TAB>" :
-				\ coc#refresh()
-	let g:coc_snippet_next = '<tab>'
-endif
+inoremap <silent><expr> <TAB>
+			\ coc#pum#visible() ? coc#_select_confirm() :
+			\ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+			\ <SID>check_back_space()  ? "\<TAB>" :
+			\ coc#refresh()
+" Snippet expansion and navigation for coc.nvim
+" Use <Tab> to jump to next placeholder in snippet mode
+let g:coc_snippet_next = '<Tab>'
 
+" Use <S-Tab> to jump to previous placeholder in snippet mode
+let g:coc_snippet_prev = '<S-Tab>'
