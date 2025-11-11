@@ -33,6 +33,15 @@ function! s:run_go_test() abort
 	echo "Running command: " . l:cmd
 
 	execute 'botright terminal ' . l:cmd
+
+    nnoremap <buffer> q :bd!<CR>
+
+    setlocal bufhidden=wipe
+    setlocal noswapfile
+    " setlocal nobuflisted
+    " setlocal readonly
+	setlocal nonumber
+
 endfunction
 
 command! -nargs=0 GoTest call s:run_go_test()

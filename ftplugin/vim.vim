@@ -1,9 +1,9 @@
 vim9script
 
 set noexpandtab
-set shiftwidth=2
-set softtabstop=2
-set tabstop=2
+set shiftwidth=4
+set softtabstop=4
+set tabstop=4
 
 def Help(args: string)
   var syn_name = synIDattr(synID(line('.'), col('.'), 1), 'name')

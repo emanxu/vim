@@ -6,33 +6,42 @@ set updatetime=300
 set signcolumn=yes
 
 
-" Use tab for trigger completion with characters ahead and navigate
-" NOTE: There's always complete item selected by default, you may want to enable
-" no select by `"suggest.noselect": true` in your configuration file
+" Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
-" other plugin before putting this into your config
+" other plugin before putting this into your config.
 inoremap <silent><expr> <TAB>
       \ coc#pum#visible() ? coc#pum#next(1) :
-      \ <SID>check_back_space() ? "\<Tab>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
-inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
-
-" Make <CR> to accept selected completion item or notify coc.nvim to format
-" <C-g>u breaks current undo, please make your own choice
-inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+inoremap <expr><S-TAB> pumvisible() ? coc#pum#prev(1) : "\<C-h>"
 
 function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
+	let col = col('.') - 1
+	return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-" Use <c-space> to trigger completion
-if has('nvim')
-  inoremap <silent><expr> <c-space> coc#refresh()
+" Make <CR> to accept selected completion item or notify coc.nvim to format
+" <C-g>u breaks current undo, please make your own choice.
+if 1
+	inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+				\: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 else
-  inoremap <silent><expr> <c-@> coc#refresh()
 endif
+
+
+" Use <c-space> to trigger completion.
+if has('nvim')
+	inoremap <silent><expr> <c-space> coc#refresh()
+else
+	inoremap <silent><expr> <c-@> coc#refresh()
+endif
+
+" Snippet jump
+" let g:coc_snippet_next = '<tab>'
+" let g:coc_snippet_prev = '<s-tab>'
+let g:coc_snippet_next = '<c-j>'
+let g:coc_snippet_prev = '<c-k>'
+
 
 " Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list
@@ -103,27 +112,32 @@ augroup MyCoCEventGroup
 	autocmd!
 	" Setup formatexpr specified filetype(s).
 	autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-	autocmd BufWritePre *.go :silent! call CocAction('organizeImport')
-	autocmd BufWritePre *.go :silent! call CocAction('format')
-	autocmd BufWritePre *.c :silent! call CocActionAsync('organizeImport')
-	autocmd BufWritePre *.c :silent! call CocActionAsync('format')
 	" Update signature help on jump placeholder.
 	autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
 
 
-" snippet
-" when using coc-snippets, we disanble ultisnips. https://github.com/neoclide/coc-snippets/issues/123
-" coc-snippet coc-snippets doesn't calculate python code on placeholder change.
-" disable ultisnips support by add "snippets.ultisnips.enable": false in your configuration file.
-inoremap <silent><expr> <TAB>
-			\ coc#pum#visible() ? coc#_select_confirm() :
-			\ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-			\ <SID>check_back_space()  ? "\<TAB>" :
-			\ coc#refresh()
-" Snippet expansion and navigation for coc.nvim
-" Use <Tab> to jump to next placeholder in snippet mode
-let g:coc_snippet_next = '<Tab>'
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
 
-" Use <S-Tab> to jump to previous placeholder in snippet mode
-let g:coc_snippet_prev = '<S-Tab>'
+
+" Add `:Format` command to format current buffer.
+command! -nargs=0 Format :call CocAction('format')
+
+" Add `:Fold` command to fold current buffer.
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+" Add `:OR` command for organize imports of the current buffer.
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+function! s:CocGoFormat()
+	silent call CocAction('organizeImport')
+	" silent! call CocAction('runCommand', 'editor.action.organizeImport')
+	silent! call CocAction('format')
+endfunction
+
+augroup CocGo
+    autocmd!
+    autocmd BufWritePre *.go call s:CocGoFormat()
+augroup end
+

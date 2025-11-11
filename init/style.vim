@@ -37,13 +37,3 @@ highlight LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=NONE
 hi! Pmenu guibg=gray guifg=black ctermbg=gray ctermfg=black
 hi! PmenuSel guibg=gray guifg=brown ctermbg=brown ctermfg=gray
 
-
-" Disable terminal Line number and close signcolumn
-if has('terminal') && exists(':terminal') == 2
-	if exists('##TerminalOpen')
-		augroup VimUnixTerminalGroup
-			au! 
-			au TerminalOpen * setlocal nonumber signcolumn=no
-		augroup END
-	endif
-endif

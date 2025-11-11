@@ -102,6 +102,7 @@ if s:enableKey('colors')
 	Plug 'ayu-theme/ayu-vim'
 	Plug 'morhetz/gruvbox'
 	Plug 'rhysd/vim-color-spring-night'
+	Plug 'NLKNguyen/papercolor-theme'
 
 	if !has('nvim')
 		Plug 'skywind3000/colors-from-neovim.vim'
@@ -166,7 +167,10 @@ endif
 " CoC
 if s:enableKey('coc')
 	Plug 'neoclide/coc.nvim', {'branch': 'release'}
-	Plug 'honza/vim-snippets'
+	Plug 'honza/vim-snippets' " for snippets
+
+	" the plug will install after coc.nvim install
+	let g:coc_global_extensions = ['coc-json', 'coc-git','coc-snippets','coc-ecdict','coc-marketplace']
 
 	IncScript site/bundle/coc.vim
 endif
